@@ -75,11 +75,12 @@ will know exactly what to do before the build fails.
 [travis-url]: https://travis-ci.org
 [teamcity-url]: https://www.jetbrains.com/teamcity/
 [bamboo-url]: https://www.atlassian.com/software/bamboo
+[jenkins-url]: https://jenkins.io/
 
 `pr-bumper` currently supports pull requests on [GitHub][github-url], [Bitbucket][bitbucket-url], and [Bitbucket Server][bitbucket-server-url]
 
 It is also optimized to work with [Travis CI][travis-url] out-of-the box, but can be configured to work with
-[TeamCity][teamcity-url] or [Bamboo][bamboo-url] as well using the [`.pr-bumper.json`](#pr-bumperjson) config file.
+[TeamCity][teamcity-url], [Bamboo][bamboo-url] or [Jenkins][jenkins-url] as well using the [`.pr-bumper.json`](#pr-bumperjson) config file.
 
 ## Installation
 
@@ -651,3 +652,42 @@ Example Bamboo and Bitbucket configuration:
     }
   }
   ```
+
+  Example Jenkins configuration using the [Git Plugin environment variables](https://wiki.jenkins.io/display/JENKINS/Git+Plugin#GitPlugin-Environmentvariables) 
+  and [Jenkins set environment variables](https://wiki.jenkins.io/display/JENKINS/Building+a+software+project#Buildingasoftwareproject-belowJenkinsSetEnvironmentVariables).
+
+  ```
+  {
+  "ci": {
+    "env": {
+      "branch": "GIT_BRANCH",
+      "buildNumber": "BUILD_NUMBER",
+      "pr": "CHANGE_ID",
+      "repoSlug": "GIT_BRANCH"
+    },
+    "gitUser": {
+      "email": "jenkins.user@gmail.com",
+      "name": "Jenkins"
+    },
+    "provider": "jenkins"
+  },
+  "features": {
+    ...
+    # features
+  },
+  "vcs": {
+    "domain": "github.example.com",
+    "env": {
+      "readToken": "RO_GH_TOKEN",
+      "writeToken": "GITHUB_TOKEN",
+      "username": "",
+      "password": ""
+    },
+    "provider": "github-enterprise",
+    "repository": {
+      "name": "",
+      "owner": ""
+    }
+  }
+}
+```
